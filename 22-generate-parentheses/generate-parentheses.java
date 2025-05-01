@@ -5,8 +5,8 @@ class Solution {
         // base case
         if(open == n && close == n){
             list.add(sb.toString());
+            return;
         }
-
         if(open > n || close > open) return;
 
         sb.append('(');
