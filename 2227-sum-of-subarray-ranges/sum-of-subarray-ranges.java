@@ -1,16 +1,66 @@
 class Solution {
-    public long subArrayRanges(int[] nums) {
+    public long subArrayRanges(int[] arr) {
+        int n = arr.length;
         
-        long ans =0;
-        for(int i=0; i<nums.length; i++){
-            int min = Integer.MAX_VALUE;
-            int max = Integer.MIN_VALUE;
-            for(int j=i; j<nums.length; j++){
-                min = Math.min(min,nums[j]);
-                max = Math.max(max,nums[j]);
-                ans += (max-min);
+        Stack<Integer> st = new Stack<>();
+        
+        // Next smaller
+        int[] nxtSmall = new int[n];
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.isEmpty() && arr[st.peek()] > arr[i]) {
+                st.pop();
             }
+            nxtSmall[i] = st.isEmpty() ? n : st.peek();
+            st.push(i);
         }
-        return ans;
+
+        st.clear();
+        // Previous smaller
+        int[] prevSmall = new int[n];
+        for (int i = 0; i < n; i++) {
+            while (!st.isEmpty() && arr[st.peek()] >= arr[i]) {
+                st.pop();
+            }
+            prevSmall[i] = st.isEmpty() ? -1 : st.peek();
+            st.push(i);
+        }
+
+        st.clear();
+        // Next greater
+        int[] nxtGreater = new int[n];
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.isEmpty() && arr[st.peek()] < arr[i]) {
+                st.pop();
+            }
+            nxtGreater[i] = st.isEmpty() ? n : st.peek();
+            st.push(i);
+        }
+
+        st.clear();
+        // Previous greater
+        int[] prevGreater = new int[n];
+        for (int i = 0; i < n; i++) {
+            while (!st.isEmpty() && arr[st.peek()] <= arr[i]) {
+                st.pop();
+            }
+            prevGreater[i] = st.isEmpty() ? -1 : st.peek();
+            st.push(i);
+        }
+
+        long max = 0;
+        long min = 0;
+
+        for (int i = 0; i < n; i++) {
+            // Calculate contribution as minimum
+            long leftSmall = i - prevSmall[i];       
+            long rightSmall = nxtSmall[i] - i;      
+            min += (leftSmall * rightSmall) * (long)arr[i];
+   
+            long leftLarge = i - prevGreater[i];
+            long rightLarge = nxtGreater[i] - i;
+            max += (leftLarge * rightLarge) * (long)arr[i];
+        }
+
+        return max - min; 
     }
 }
