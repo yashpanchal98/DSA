@@ -10,8 +10,11 @@ class Solution {
         if (idx == N || sum > target) return;
 
         ans.add(candidates[idx]);
-        helper(candidates, sum + candidates[idx], target, idx, N, ans, hs); 
+        helper(candidates, sum + candidates[idx], target, idx+1, N, ans, hs); 
+        helper(candidates, sum + candidates[idx], target, idx, N, ans, hs);
         ans.remove(ans.size() - 1); 
+
+
         helper(candidates, sum, target, idx + 1, N, ans, hs);
     }
 
