@@ -12,12 +12,10 @@ class Solution {
     public boolean helper(TreeNode root, TreeNode node, List<TreeNode> path) {
 
         if(root == null) return false;
-
         path.add(root);
 
         if(root.val == node.val) return true;
-        
-
+    
         boolean left = helper(root.left,node,path);
         boolean right = helper(root.right,node,path);
 
