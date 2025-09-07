@@ -16,21 +16,17 @@
 class Solution {
 
     public void inorder(List<Integer> list, TreeNode root) {
-        if (root == null)
-            return;
+        if (root == null) return;
         inorder(list, root.left);
         list.add(root.val);
         inorder(list, root.right);
     }
 
     public TreeNode find(TreeNode root, int k) {
-        if (root == null)
-            return null;
-        if (root.val == k)
-            return root;
+        if (root == null) return null;
+        if (root.val == k) return root;
         TreeNode left = find(root.left, k);
-        if (left != null)
-            return left;
+        if (left != null) return left;
         return find(root.right, k);
     }
 
@@ -52,6 +48,5 @@ class Solution {
                 break;
             }
         }
-
     }
 }
