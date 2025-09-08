@@ -32,10 +32,9 @@ class Solution {
 
     public void recoverTree(TreeNode root) {
 
-        List<Integer> list1 = new ArrayList<>();
         List<Integer> list2 = new ArrayList<>();
-        inorder(list1, root);
         inorder(list2, root);
+        List<Integer> list1 = new ArrayList<>(list2);
         Collections.sort(list1);
 
         for (int i = 0; i < list1.size(); i++) {
