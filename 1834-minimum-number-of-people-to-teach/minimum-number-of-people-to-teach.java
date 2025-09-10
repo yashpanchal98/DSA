@@ -26,10 +26,8 @@ class Solution {
             }
         }
 
-        if (badUsers.isEmpty()) {
-            return 0;
-        }
-
+        if (badUsers.isEmpty()) return 0;
+    
         int answer = Integer.MAX_VALUE;
         for (int lang = 1; lang <= n; lang++) {
             int count = 0;
@@ -45,7 +43,6 @@ class Solution {
             }
             answer = Math.min(answer, count);
         }
-
         return answer;
     }
 }
