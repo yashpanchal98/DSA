@@ -45,16 +45,10 @@ class Solution {
         for(int i=1; i<n; i++){
 
             int val1 = -1,val2=-1;
-            if(nxtGrtr[i] != -1){
-                val1 = nums[nxtGrtr[i]];
-            }
-            if(prevGrtr[i] != -1){
-                val2 = nums[prevGrtr[i]];
-            }
-
-            if(val1 > nums[i] && val2 > nums[i]){
-                ans++;
-            }
+            if(nxtGrtr[i] != -1) val1 = nums[nxtGrtr[i]];
+            if(prevGrtr[i] != -1) val2 = nums[prevGrtr[i]];
+            if(val1 > nums[i] && val2 > nums[i]) ans++;
+            
         }
         return ans;
     }
