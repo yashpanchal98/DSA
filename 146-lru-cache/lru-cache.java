@@ -1,60 +1,64 @@
 class LRUCache {
-    private static class Node implements Comparable<Node> {
-        int key, value;
-        long time; // last access time
 
-        Node(int key, int value, long time) {
+    class Node {
+        int key, value;
+        Node prev, next;
+        Node(int key, int value) {
             this.key = key;
             this.value = value;
-            this.time = time;
-        }
-
-        @Override
-        public int compareTo(Node other) {
-            if (this.time == other.time) {
-                return Integer.compare(this.key, other.key); 
-            }
-            return Long.compare(this.time, other.time);
         }
     }
 
-    private final int capacity;
-    private long timestamp = 0; 
-    private final Map<Integer, Node> map;
-    private final TreeSet<Node> set;
+    private Map<Integer, Node> map;
+    private int capacity;
+    private Node head, tail;
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
-        this.map = new HashMap<>();
-        this.set = new TreeSet<>();
+        map = new HashMap<>();
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.prev = head;
     }
 
     public int get(int key) {
-        if (!map.containsKey(key)) return -1;
-
+        if (!map.containsKey(key)) {
+            return -1;
+        }
         Node node = map.get(key);
-        set.remove(node);             
-        node.time = ++timestamp;      
-        set.add(node);
+        remove(node);
+        insertToHead(node);
         return node.value;
     }
 
     public void put(int key, int value) {
         if (map.containsKey(key)) {
             Node node = map.get(key);
-            set.remove(node);
             node.value = value;
-            node.time = ++timestamp;
-            set.add(node);
+            remove(node);
+            insertToHead(node);
         } else {
             if (map.size() == capacity) {
-                Node lru = set.first();   
-                set.remove(lru);
+                Node lru = tail.prev;
+                remove(lru);
                 map.remove(lru.key);
             }
-            Node node = new Node(key, value, ++timestamp);
-            map.put(key, node);
-            set.add(node);
+            Node newNode = new Node(key, value);
+            map.put(key, newNode);
+            insertToHead(newNode);
         }
+    }
+
+    private void remove(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    private void insertToHead(Node node) {
+        node.next = head.next;
+        node.prev = head;
+        head.next.prev = node;
+        head.next = node;
     }
 }
