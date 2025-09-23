@@ -51,14 +51,20 @@ class LRUCache {
     }
 
     private void remove(Node node) {
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
+        if(node != head){
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+        } else {
+            head = head.next;
+            head.prev = null;
+        }
+       
     }
 
     private void insertToHead(Node node) {
-        node.next = head.next;
-        node.prev = head;
         head.next.prev = node;
+        node.next = head.next;
         head.next = node;
+        node.prev = head;
     }
 }
