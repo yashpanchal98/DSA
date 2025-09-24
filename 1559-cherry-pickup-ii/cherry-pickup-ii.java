@@ -11,7 +11,6 @@ class Solution {
                 }
             }
         }
-
         return helper(grid, 0, 0, n-1, m, n, dp);
     }
 
@@ -30,9 +29,9 @@ class Solution {
             for (int l = -1; l <= 1; l++) {
                 int cherries = (j1 == j2) ? grid[i][j1] : grid[i][j1] + grid[i][j2];
                 int next = helper(grid, i+1, j1+k, j2+l, m, n, dp);
-                if (next != Integer.MIN_VALUE) {
+                
                     cherries += next;
-                }
+                
                 result = Math.max(result, cherries);
             }
         }
