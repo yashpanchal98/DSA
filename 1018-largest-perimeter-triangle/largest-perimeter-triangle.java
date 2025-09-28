@@ -9,7 +9,7 @@ class Solution {
         for (int i = n; i > 1; i--) {
             int l = nums[i-2];
             int r = nums[i-1];
-            if(l+r>nums[i]) ans = Math.max(ans,l+r+nums[i]);
+            if(l+r>nums[i]) return l+r+nums[i];
         }
         return ans;
     }
