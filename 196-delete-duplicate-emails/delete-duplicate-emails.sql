@@ -1,4 +1,13 @@
-DELETE p1 
-FROM Person p1, Person p2
-WHERE p1.email = p2.email 
-AND p1.id > p2.id;
+-- DELETE p1 
+-- FROM Person p1 join Person p2 
+-- WHERE p1.email = p2.email 
+-- AND p1.id > p2.id;
+
+WITH CTE AS (
+    SELECT *,
+    ROW_NUMBER() OVER(PARTITION BY EMAIL ORDER BY ID ASC) AS RN
+    FROM PERSON
+)
+
+DELETE 
+FROM PERSON WHERE ID IN( SELECT id FROM CTE WHERE rn > 1);
