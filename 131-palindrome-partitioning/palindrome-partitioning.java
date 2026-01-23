@@ -12,9 +12,9 @@ class Solution {
 
     }
 
-    public void helper(String s, int idx, List<List<String>> ans, List<String> list) {
+    public void helper(String s, int idx, List<List<String>> ans, List<String> list,int n) {
 
-        if(idx == s.length()){
+        if(idx == n){
             ans.add(new ArrayList<>(list));
             return;
         }
@@ -23,7 +23,7 @@ class Solution {
             String str = s.substring(idx,i+1);
             if(isPalindrome(str)){
                 list.add(str);
-                helper(s,i+1,ans,list);
+                helper(s,i+1,ans,list,n);
                 list.remove(list.size()-1);
             } 
         }
@@ -33,7 +33,8 @@ class Solution {
         
         List<String> list = new ArrayList<>();
         List<List<String>> ans = new ArrayList<>();
-        helper(s,0,ans,list);
+        int n = s.length();
+        helper(s,0,ans,list,n);
         return ans;
     }
 }
